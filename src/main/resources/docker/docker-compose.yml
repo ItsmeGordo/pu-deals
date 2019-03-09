@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+
+  mysql:
+    container_name: mysql
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: padrao
+    ports:
+      - 3306:3306
