@@ -2,6 +2,17 @@ version: '3.1'
 
 services:
 
+  portainer:
+    container_name: portainer
+    image: portainer/portainer
+    ports:
+      - "9000:9000"
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped  
+
   mysql:
     container_name: mysql
     image: mysql
