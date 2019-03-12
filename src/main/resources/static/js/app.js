@@ -51,8 +51,25 @@ const Home = { template: `
   mounted () {}
 } 
 
+const AddDeal = { template: `
+
+  `, 
+  data () {
+    return {
+        deals: [
+          { title: 'Diaria no hotel', type: 'VIAGEM', optionsQty: 1, lowestPrice: 1.99, flex: 4 },
+          { title: 'Churrascaria boa e barata', type: 'LOCAL', optionsQty: 2, lowestPrice: 40.00, flex: 4 },
+          { title: 'Cama Elastica', type: 'PRODUTO', optionsQty: 1, lowestPrice: 4000.00, flex: 4 }
+        ]
+    }
+  },
+  methods: {},
+  mounted () {}
+} 
+
 const routes = [
-  { path: '/', component: Home }
+  { path: '/', component: Home },
+  { path: '/add-deal', component: AddDeal}
 ]
 
 const router = new VueRouter({
