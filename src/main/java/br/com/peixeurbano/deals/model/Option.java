@@ -4,12 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -21,12 +19,13 @@ public class Option implements Serializable {
     @GeneratedValue
     private Long id;
     private String title;
+    @ManyToOne(fetch = FetchType.LAZY)
     private Deal deal;
     private BigDecimal normalPrice;
     private BigDecimal salePrice;
     private BigDecimal perncetageDiscount;
     private Long quantityCupom;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
 }

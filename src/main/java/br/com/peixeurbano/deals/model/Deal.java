@@ -5,28 +5,36 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 public class Deal implements Serializable {
 
+    public enum DealType {
+        LOCAL,
+        PRODUTO,
+        VIAGEM
+    }
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String text;
-    private LocalDate createDate;
-    private LocalDate publishDate;
-    private LocalDate endDate;
+    private LocalDateTime createDate;
+    private LocalDateTime publishDate;
+    private LocalDateTime endDate;
     private String url;
     private Long totalSold;
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private DealType type;
+    @OneToMany(mappedBy = "deal", fetch = FetchType.LAZY)
+    private List<Option> options;
 
 }
