@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -25,7 +25,7 @@ public class Option implements Serializable {
     private BigDecimal salePrice;
     private BigDecimal perncetageDiscount;
     private Long quantityCupom;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
 }
