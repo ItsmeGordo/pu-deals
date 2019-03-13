@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -27,11 +27,11 @@ public class Deal implements Serializable {
     private Long id;
     private String title;
     private String text;
-    private LocalDateTime createDate;
-    private LocalDateTime publishDate;
-    private LocalDateTime endDate;
+    private LocalDate createDate;
+    private LocalDate publishDate;
+    private LocalDate endDate;
     private String url;
-    private Long totalSold;
+    private long totalSold;
     @Enumerated(EnumType.STRING)
     private DealType type;
     @OneToMany(mappedBy = "deal", fetch = FetchType.LAZY)

@@ -18,7 +18,9 @@
                 <v-icon>home</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>Página Inicial</v-list-tile-title>
+                <router-link to="/">
+                  <v-list-tile-title>Página Inicial</v-list-tile-title>
+                </router-link>
               </v-list-tile-content>
             </v-list-tile>
             <v-list-tile @click="">
@@ -26,7 +28,9 @@
                 <v-icon>attach_money</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>Inserir Oferta</v-list-tile-title>
+                <router-link to="/add-deal/">
+                  <v-list-tile-title>Inserir Oferta</v-list-tile-title>
+                </router-link>
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
@@ -38,106 +42,7 @@
           <v-toolbar-title>PU Deals</v-toolbar-title>
         </v-toolbar>
         <v-content>
-            <form v-model="valid">
-              <v-container grid-list-xl>
-                <v-layout wrap justify-space-between>
-                  <v-flex xs8 sm8 md8>
-                    <v-text-field
-                      v-model="title"
-                      :error-messages="titleErrors"
-                      :counter="150"
-                      label="Título"
-                      required
-                      @input="$v.title.$touch()"
-                      @blur="$v.title.$touch()">
-                    </v-text-field>
-                  </v-flex>
-                  <v-flex xs4 sm4 md4>
-                    <v-select
-                      v-model="type"
-                      :items="types"
-                      :error-messages="typeErrors"
-                      label="Tipo"
-                      required
-                      @change="$v.type.$touch()"
-                      @blur="$v.type.$touch()">
-                    </v-select>
-                  </v-flex>
-                  <v-flex xs12 sm12 md12>
-                    <v-text-field
-                      v-model="url"
-                      :error-messages="urlErrors"
-                      label="URL"
-                      required
-                      @input="$v.url.$touch()"
-                      @blur="$v.url.$touch()">
-                    </v-text-field>
-                  </v-flex>
-                  <v-flex xs6 sm6 md6>
-                    <v-menu
-                      v-model="publishDateMenu"
-                      :close-on-content-click="false"
-                      :nudge-right="40"
-                      lazy
-                      transition="scale-transition"
-                      offset-y
-                      full-width
-                      min-width="290px">
-                      <template v-slot:activator="{ on }">
-                        <v-text-field
-                          v-model="date"
-                          label="Data de Publicação"
-                          prepend-icon="event"
-                          readonly
-                          v-on="on"
-                        ></v-text-field>
-                      </template>
-                      <v-date-picker v-model="publishDate" @input="publishDateMenu = false"></v-date-picker>
-                    </v-menu>
-                  </v-flex>
-                  <v-flex xs6 sm6 md6>
-                    <v-menu
-                      v-model="endDateMenu"
-                      :close-on-content-click="false"
-                      :nudge-right="40"
-                      lazy
-                      transition="scale-transition"
-                      offset-y
-                      full-width
-                      min-width="290px">
-                      <template v-slot:activator="{ on }">
-                        <v-text-field
-                          v-model="date"
-                          label="Data de Encerramento"
-                          prepend-icon="event"
-                          readonly
-                          v-on="on"
-                        ></v-text-field>
-                      </template>
-                      <v-date-picker v-model="endDate" @input="endDateMenu = false"></v-date-picker>
-                    </v-menu>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-textarea
-                      name="input-7-1"
-                      label="Descrição"
-                      value="">
-                    </v-textarea>
-                  </v-flex>
-                  <v-checkbox
-                    v-model="checkbox"
-                    :error-messages="checkboxErrors"
-                    label="Do you agree?"
-                    required
-                    @change="$v.checkbox.$touch()"
-                    @blur="$v.checkbox.$touch()"
-                  ></v-checkbox>
-              
-                  <v-btn @click="submit">submit</v-btn>
-                  <v-btn @click="clear">clear</v-btn>
-                </v-layout>
-              </v-container>
-            </form>
+            <router-view></router-view>
         </v-content>
       </v-app>
     </div>

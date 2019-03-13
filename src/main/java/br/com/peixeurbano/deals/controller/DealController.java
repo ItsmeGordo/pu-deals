@@ -5,6 +5,7 @@ import br.com.peixeurbano.deals.model.Deal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -14,8 +15,9 @@ public class DealController {
     @Autowired
     private DealFacade dealFacade;
 
-    @PostMapping("/saveDeal")
-    public Deal saveDeal(Deal deal) {
+    @PostMapping(path = "/saveDeal", consumes = "application/json", produces = "application/json")
+    public Deal saveDeal(@RequestBody Deal deal) {
+        deal.setCreateDate(LocalDate.now());
         return dealFacade.save(deal);
     }
 
