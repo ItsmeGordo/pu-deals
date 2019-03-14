@@ -299,9 +299,50 @@ const AddDeal = { template: `
   mounted () {}
 } 
 
+const ViewDeal = { template: `
+  <h1>{{ title }}</h1>
+
+  <span>{{ text }}</span>
+
+  <v-list>
+    <template v-for="item in deal.options">
+
+      <v-list-tile
+        :key="item.title"
+        avatar
+        @click="">
+        <v-list-tile-content>
+          <v-list-tile-title v-html="item.title"></v-list-tile-title>
+          <v-list-tile-sub-title v-html="item.sellPrice"></v-list-tile-sub-title>
+        </v-list-tile-content>
+      </v-list-tile>
+    </template>
+  </v-list>
+  `,  data () {
+    return {
+      deal: {
+        title: '',
+        type: '',
+        url: '',
+        publishDate: '',
+        endDate: '',
+        description: '',
+        options: []
+      }
+    }
+  },
+  methods: {
+  },
+  mounted () {
+
+  }
+}
+
+
 const routes = [
   { path: '/', component: Home },
-  { path: '/add-deal', component: AddDeal}
+  { path: '/add-deal', component: AddDeal},
+  { path: '/deal/{url}', component: ViewDeal}
 ]
 
 const router = new VueRouter({
