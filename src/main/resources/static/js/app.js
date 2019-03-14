@@ -53,11 +53,12 @@ const Home = { template: `
 
 const AddDeal = { template: `
 <form>
-  <v-container grid-list-xl>
+  <v-subheader>Dados da oferta</v-subheader>
+  <v-container grid-list-xl >
     <v-layout wrap justify-space-between>
       <v-flex xs8 sm8 md8>
         <v-text-field
-          v-model="title"
+          v-model="deal.title"
           :counter="150"
           label="Título"
           required>
@@ -65,7 +66,7 @@ const AddDeal = { template: `
       </v-flex>
       <v-flex xs4 sm4 md4>
         <v-select
-          v-model="type"
+          v-model="deal.type"
           :items="types"
           label="Tipo"
           required>
@@ -73,7 +74,7 @@ const AddDeal = { template: `
       </v-flex>
       <v-flex xs12 sm12 md12>
         <v-text-field
-          v-model="url"
+          v-model="deal.url"
           label="URL"
           required>
         </v-text-field>
@@ -90,14 +91,14 @@ const AddDeal = { template: `
           min-width="290px">
           <template v-slot:activator="{ on }">
             <v-text-field
-              v-model="publishDate"
+              v-model="deal.publishDate"
               label="Data de Publicação"
               prepend-icon="event"
               readonly
               v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker v-model="publishDate" @input="publishDateMenu = false"></v-date-picker>
+          <v-date-picker v-model="deal.publishDate" @input="publishDateMenu = false"></v-date-picker>
         </v-menu>
       </v-flex>
       <v-flex xs6 sm6 md6>
@@ -112,42 +113,178 @@ const AddDeal = { template: `
           min-width="290px">
           <template v-slot:activator="{ on }">
             <v-text-field
-              v-model="endDate"
+              v-model="deal.endDate"
               label="Data de Encerramento"
               prepend-icon="event"
               readonly
               v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker v-model="endDate" @input="endDateMenu = false"></v-date-picker>
+          <v-date-picker v-model="deal.endDate" @input="endDateMenu = false"></v-date-picker>
         </v-menu>
       </v-flex>
       <v-flex xs12>
         <v-textarea
-          v-model="description"
+          v-model="deal.description"
           name="desc"
           label="Descrição"
           value="">
         </v-textarea>
       </v-flex>
+    </v-layout>
+  </v-container>
+
+  <v-subheader>Dados das opções da oferta</v-subheader>
+  <v-container grid-list-xl>
+    <v-layout wrap justify-space-between>
+      <v-flex xs8 sm8 md8>
+        <v-text-field
+          v-model="option.title"
+          :counter="150"
+          label="Título Opção">
+        </v-text-field>
+      </v-flex>
+      <v-flex xs4 sm4 md4>
+        <v-text-field
+          v-model="option.quantity"
+          label="Quantidade"
+          type=number>
+        </v-text-field>
+      </v-flex>
+      <v-flex xs4 sm4 md4>
+        <v-text-field
+          v-model="option.normalPrice"
+          label="Preço Normal"
+          prefix="R$"
+          type=number>
+        </v-text-field>
+      </v-flex>
+      <v-flex xs4 sm4 md4>
+        <v-text-field
+          v-model="option.sellPrice"
+          label="Preço de venda"
+          prefix="R$"
+          type=number>
+        </v-text-field>
+      </v-flex>
+      <v-flex xs4 sm4 md4>
+        <v-text-field
+          v-model="option.discount"
+          label="Desconto"
+          prefix="%">
+        </v-text-field>
+      </v-flex>
+      <v-flex xs6 sm6 md6>
+        <v-menu
+          v-model="optionStartDateMenu"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          lazy
+          transition="scale-transition"
+          offset-y
+          full-width
+          min-width="290px">
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              v-model="option.startDate"
+              label="Data de Inicio"
+              prepend-icon="event"
+              readonly
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="option.startDate" @input="optionStartDateMenu = false"></v-date-picker>
+        </v-menu>
+      </v-flex>
+      <v-flex xs6 sm6 md6>
+        <v-menu
+          v-model="optionEndDateMenu"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          lazy
+          transition="scale-transition"
+          offset-y
+          full-width
+          min-width="290px">
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              v-model="option.endDate"
+              label="Data de Fim"
+              prepend-icon="event"
+              readonly
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="option.endDate" @input="optionEndDateMenu = false"></v-date-picker>
+        </v-menu>
+      </v-flex>
+      <v-flex xs12 sm12 md12>
+        <v-data-table
+          :headers="optionHeaders"
+          :items="deal.options"
+          class="elevation-1">
+          <template v-slot:no-data>
+            <v-alert :value="true" color="warning" icon="warning">
+              Adicione ao menos uma opção de venda! =(
+            </v-alert>
+          </template>
+          <template v-slot:items="data">
+            <td>{{ data.item.title }}</td>
+            <td class="text-xs-right">{{ data.item.quantity }}</td>
+            <td class="text-xs-right">{{ props.item.normalPrice }}</td>
+            <td class="text-xs-right">{{ props.item.sellPrice }}</td>
+            <td class="text-xs-right">{{ props.item.discount }}</td>
+            <td class="text-xs-center">{{ props.item.startDate }}</td>
+            <td class="text-xs-center">{{ props.item.endDate }}</td>
+          </template>
+        </v-data-table>
+      </v-flex>
       <v-flex xs12>
-        <v-btn @click="save">Salvar</v-btn>
+        <v-btn @click="save" color="info">Salvar Opção</v-btn>
       </v-flex>
     </v-layout>
   </v-container>
+
+  <v-flex xs12 >
+    <v-btn @click="save" color="success">Salvar Oferta</v-btn>
+  </v-flex>
+
 </form>
   `, 
   data () {
     return {
-      title: '',
+      deal: {
+        title: '',
+        type: '',
+        url: '',
+        publishDate: '',
+        endDate: '',
+        description: '',
+        options: []
+      },
       types: ['VIAGEM', 'LOCAL', 'PRODUTO'],
-      type: '',
-      url: '',
-      publishDate: '',
-      endDate: '',
-      description: '',
       publishDateMenu: false,
-      endDateMenu: false
+      endDateMenu: false,
+      optionStartDateMenu: false,
+      optionEndDateMenu: false,
+      option: { 
+        title: '',
+        quantity: '',
+        normalPrice: '',
+        sellPrice: '',
+        discount: '',
+        startDate: '',
+        endDate: ''
+      },
+      optionHeaders: [
+        { text: 'Título', value: 'title' },
+        { text: 'Quantidade', value: 'quantity' },
+        { text: 'Preço Normal (R$)', value: 'normalPrice' },
+        { text: 'Preço Venda (R$)', value: 'sellPrice' },
+        { text: 'Desconto (%)', value: 'discount' },
+        { text: 'Data Inicio', value: 'startDate' },
+        { text: 'Data Fim', value: 'endDate'}
+      ]
     }
   },
   methods: {
