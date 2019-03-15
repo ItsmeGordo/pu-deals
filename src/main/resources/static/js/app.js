@@ -3,28 +3,25 @@ const Home = { template: `
     <v-container fluid grid-list-md>
       <v-layout row wrap>
       <v-flex
-        v-for="deal in deals"
-        :key="deal.title"
-        v-bind="{[\`xs\${deal.flex}\`]: true }"
+        xs4
+        v-for="item in dealItems"
+        :key="item.deal.id"
       >
         <v-card>
         <v-card-title>
-          <v-icon large left v-if="deal.type === 'VIAGEM'">
+          <v-icon large left v-if="item.deal.type === 'VIAGEM'">
             flight
           </v-icon>
-          <v-icon large left v-if="deal.type === 'LOCAL'">
+          <v-icon large left v-if="item.deal.type === 'LOCAL'">
             place
           </v-icon>
-          <v-icon large left v-if="deal.type === 'PRODUTO'">
+          <v-icon large left v-if="item.deal.type === 'PRODUTO'">
             local_offer
           </v-icon>
-          <span class="title font-weight-light"> {{ deal.title }}</span>
+          <span class="title font-weight-light"> {{ item.deal.title }}</span>
         </v-card-title>
-        <v-card-text class="headline font-weight-bold" v-if="deal.optionsQty > 1">
-          A partir de R\${{ deal.lowestPrice }}
-        </v-card-text>
-        <v-card-text class="headline font-weight-bold" v-else>
-          {{ deal.lowestPrice }}
+        <v-card-text class="headline font-weight-bold">
+          A partir de R\${{ item.lowestPrice }}
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -40,15 +37,19 @@ const Home = { template: `
   `, 
   data () {
     return {
-        deals: [
-          { title: 'Diaria no hotel', type: 'VIAGEM', optionsQty: 1, lowestPrice: 1.99, flex: 4 },
-          { title: 'Churrascaria boa e barata', type: 'LOCAL', optionsQty: 2, lowestPrice: 40.00, flex: 4 },
-          { title: 'Cama Elastica', type: 'PRODUTO', optionsQty: 1, lowestPrice: 4000.00, flex: 4 }
-        ]
+        dealItems: []
     }
   },
-  methods: {},
-  mounted () {}
+  methods: {
+    getAllDeals: function() {
+      axios.get('/api/deal/getAllDeals').then(response => {
+        this.dealItems = response.data;
+      });
+    }
+  },
+  mounted () {
+    this.getAllDeals()
+  }
 } 
 
 const AddDeal = { template: `

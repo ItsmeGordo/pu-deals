@@ -13,7 +13,7 @@ CREATE TABLE `pu_deals`.`deal` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `url_UNIQUE` (`url` ASC));
 
-CREATE TABLE `pu_deals`.`option` (
+CREATE TABLE `pu_deals`.`deal_option` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(150) NULL,
   `deal_id` BIGINT NULL,

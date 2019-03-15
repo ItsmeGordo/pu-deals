@@ -34,7 +34,7 @@ public class Deal implements Serializable {
     private long totalSold;
     @Enumerated(EnumType.STRING)
     private DealType type;
-    @OneToMany(mappedBy = "deal", fetch = FetchType.LAZY)
-    private List<Option> options;
+    @OneToMany(mappedBy = "deal", fetch = FetchType.EAGER)
+    private List<DealOption> dealOptions;
 
 }

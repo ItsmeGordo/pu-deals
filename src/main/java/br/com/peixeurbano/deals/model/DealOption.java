@@ -1,5 +1,6 @@
 package br.com.peixeurbano.deals.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,17 +10,19 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Entity
+@Table(schema = "deal_option")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class Option implements Serializable {
+public class DealOption implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JsonIgnore
     private Deal deal;
     private BigDecimal normalPrice;
     private BigDecimal salePrice;

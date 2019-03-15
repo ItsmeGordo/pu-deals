@@ -1,5 +1,6 @@
 package br.com.peixeurbano.deals.controller;
 
+import br.com.peixeurbano.deals.dto.DealDataVMO;
 import br.com.peixeurbano.deals.facade.DealFacade;
 import br.com.peixeurbano.deals.model.Deal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ public class DealController {
     }
 
     @GetMapping("/getAllDeals")
-    public List<Deal> getDeals() {
-        return null;
+    public List<DealDataVMO> getDeals() {
+        return dealFacade.findAllActive();
     }
 
     @GetMapping("/getDeals/{type}")
