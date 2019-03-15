@@ -20,6 +20,11 @@ public class DealFacade {
     private DealRepository dealRepository;
 
     public Deal save(Deal deal) {
+        for (DealOption dealOption : deal.getDealOptions()) {
+            if (dealOption.getDeal() == null) {
+                dealOption.setDeal(deal);
+            }
+        }
         return dealRepository.save(deal);
     }
 

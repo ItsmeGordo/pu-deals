@@ -26,6 +26,8 @@ Para rodar o projeto, é necessário executar o comando mvn spring-boot:run
 
 - Foi feito um EAGER no Deal, pois como o tempo ficou curto, precisei improvisar. Mas sei que isso não é interessante dentro de uma aplicação.
 
+- Deveria ter sido feita uma validação dos dados no backend e ele retornar os dados ou mensagens de erro.
+
 # TODO
 
 - [X] Arquitetura da aplicação web e todos os mecanismos envolvidos para suportar o desenvolvimento.

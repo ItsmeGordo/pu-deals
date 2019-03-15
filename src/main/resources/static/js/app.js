@@ -127,7 +127,7 @@ const AddDeal = { template: `
       </v-flex>
       <v-flex xs12>
         <v-textarea
-          v-model="deal.description"
+          v-model="deal.text"
           name="desc"
           label="Descrição"
           value="">
@@ -148,7 +148,7 @@ const AddDeal = { template: `
       </v-flex>
       <v-flex xs4 sm4 md4>
         <v-text-field
-          v-model="option.quantity"
+          v-model="option.quantityCupom"
           label="Quantidade"
           type=number>
         </v-text-field>
@@ -163,7 +163,7 @@ const AddDeal = { template: `
       </v-flex>
       <v-flex xs4 sm4 md4>
         <v-text-field
-          v-model="option.sellPrice"
+          v-model="option.salePrice"
           label="Preço de venda"
           prefix="R$"
           type=number>
@@ -171,7 +171,7 @@ const AddDeal = { template: `
       </v-flex>
       <v-flex xs4 sm4 md4>
         <v-text-field
-          v-model="option.discount"
+          v-model="option.perncetageDiscount"
           label="Desconto"
           prefix="%">
         </v-text-field>
@@ -223,7 +223,7 @@ const AddDeal = { template: `
       <v-flex xs12 sm12 md12>
         <v-data-table
           :headers="optionHeaders"
-          :items="deal.options"
+          :items="deal.dealOptions"
           class="elevation-1">
           <template v-slot:no-data>
             <v-alert :value="true" color="warning" icon="warning">
@@ -232,17 +232,17 @@ const AddDeal = { template: `
           </template>
           <template v-slot:items="data">
             <td>{{ data.item.title }}</td>
-            <td class="text-xs-right">{{ data.item.quantity }}</td>
-            <td class="text-xs-right">{{ props.item.normalPrice }}</td>
-            <td class="text-xs-right">{{ props.item.sellPrice }}</td>
-            <td class="text-xs-right">{{ props.item.discount }}</td>
-            <td class="text-xs-center">{{ props.item.startDate }}</td>
-            <td class="text-xs-center">{{ props.item.endDate }}</td>
+            <td class="text-xs-right">{{ data.item.quantityCupom }}</td>
+            <td class="text-xs-right">{{ data.item.normalPrice }}</td>
+            <td class="text-xs-right">{{ data.item.salePrice }}</td>
+            <td class="text-xs-right">{{ data.item.perncetageDiscount }}</td>
+            <td class="text-xs-center">{{ data.item.startDate }}</td>
+            <td class="text-xs-center">{{ data.item.endDate }}</td>
           </template>
         </v-data-table>
       </v-flex>
       <v-flex xs12>
-        <v-btn @click="save" color="info">Salvar Opção</v-btn>
+        <v-btn @click="addOption" color="info">Adicionar Opção</v-btn>
       </v-flex>
     </v-layout>
   </v-container>
@@ -252,7 +252,7 @@ const AddDeal = { template: `
   </v-flex>
 
 </form>
-  `, 
+  `,
   data () {
     return {
       deal: {
@@ -261,8 +261,8 @@ const AddDeal = { template: `
         url: '',
         publishDate: '',
         endDate: '',
-        description: '',
-        options: []
+        text: '',
+        dealOptions: []
       },
       types: ['VIAGEM', 'LOCAL', 'PRODUTO'],
       publishDateMenu: false,
@@ -271,19 +271,19 @@ const AddDeal = { template: `
       optionEndDateMenu: false,
       option: { 
         title: '',
-        quantity: '',
+        quantityCupom: '',
         normalPrice: '',
-        sellPrice: '',
-        discount: '',
+        salePrice: '',
+        perncetageDiscount: '',
         startDate: '',
         endDate: ''
       },
       optionHeaders: [
         { text: 'Título', value: 'title' },
-        { text: 'Quantidade', value: 'quantity' },
+        { text: 'Quantidade', value: 'quantityCupom' },
         { text: 'Preço Normal (R$)', value: 'normalPrice' },
-        { text: 'Preço Venda (R$)', value: 'sellPrice' },
-        { text: 'Desconto (%)', value: 'discount' },
+        { text: 'Preço Venda (R$)', value: 'salePrice' },
+        { text: 'Desconto (%)', value: 'perncetageDiscount' },
         { text: 'Data Inicio', value: 'startDate' },
         { text: 'Data Fim', value: 'endDate'}
       ]
@@ -291,9 +291,7 @@ const AddDeal = { template: `
   },
   methods: {
     save: function() {
-      var formObj = {'title': this.title, 'url': this.url, 'publishDate': this.publishDate, 'endDate': this.endDate, 'text': this.description, 'type': this.type };
-      console.log(formObj);
-      axios.post('/api/deal/saveDeal', formObj).then(response => {
+      axios.post('/api/deal/saveDeal', this.deal).then(response => {
         console.log(response);
       })
     },
@@ -320,6 +318,16 @@ const AddDeal = { template: `
     },
     slugify: function() {
       this.deal.url = this.sanitizeTitle(this.deal.title);
+    },
+    addOption: function() {
+      this.deal.dealOptions.push(Object.assign({}, this.option));
+      this.option.title = '';
+      this.option.quantityCupom = '';
+      this.option.normalPrice = '';
+      this.option.salePrice = '';
+      this.option.perncetageDiscount = '';
+      this.option.startDate = '';
+      this.option.endDate = '';
     }
   },
   mounted () {}
@@ -339,7 +347,7 @@ const ViewDeal = { template: `
         @click="">
         <v-list-tile-content>
           <v-list-tile-title v-html="item.title"></v-list-tile-title>
-          <v-list-tile-sub-title v-html="item.sellPrice"></v-list-tile-sub-title>
+          <v-list-tile-sub-title v-html="item.salePrice"></v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
     </template>
@@ -352,7 +360,7 @@ const ViewDeal = { template: `
         url: '',
         publishDate: '',
         endDate: '',
-        description: '',
+        text: '',
         options: []
       }
     }
